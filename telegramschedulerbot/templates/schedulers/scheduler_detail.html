@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Scheduler: {{ object.message|truncatechars:25 }}{% endblock %}
+
+{% block content %}
+<div class="container">
+
+  <div class="row">
+    <div class="col-sm-12">
+      <a type="submit" class="btn btn-primary" href="{% url 'schedulers:create' %}">Create new scheduler</a>
+      <a type="submit" class="btn btn-primary" href="{% url 'schedulers:list' %}">List of your schedulers</a>
+      <h2>{{ object.message|truncatechars:25 }}</h2>
+    </div>
+  </div>
+
+
+</div>
+{% endblock content %}
+

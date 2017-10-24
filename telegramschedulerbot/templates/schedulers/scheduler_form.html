@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ object.message|truncatechars:25 }}{% endblock %}
+
+{% block content %}
+  {% with request.resolver_match.url_name as url_name %}
+  <h1>{{ object.message|truncatechars:25 }}</h1>
+  <form class="form-horizontal" method="post" action="{% if url_name == 'create' %}{% url 'schedulers:create' %}{% else %}{% url 'schedulers:update' object.pk %}{% endif %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <div class="control-group">
+      <div class="controls">
+        <button type="submit" class="btn btn-primary">{% if url_name == 'create' %}Create{% else %}Update{% endif %}</button>
+      </div>
+    </div>
+  </form>
+  {% endwith %}
+{% endblock %}
+
+{% block include_javascript %}
+
+<script type="text/javascript">
+  
+$(document).ready(function(){
+  if ($('#id_one_time').is(':checked')) {
+    $('#id_every').prop('required',false);
+    $('#id_datetime').prop('required',false);
+    $('#div_id_every').hide();
+    $('#div_id_datetime').hide();
+  } else {
+    $('#id_every').prop('required',true);
+    $('#id_datetime').prop('required',true);
+    $('#div_id_every').show();
+    $('#div_id_datetime').show();    
+  }
+
+  $('#id_one_time').change(
+    function(){
+      if ($(this).is(':checked')) {
+        $('#id_every').prop('required',false);
+        $('#id_datetime').prop('required',false);
+        $('#div_id_every').hide();
+        $('#div_id_datetime').hide();
+      } else {
+        $('#id_every').prop('required',true);
+        $('#id_datetime').prop('required',true);
+        $('#div_id_every').show();
+        $('#div_id_datetime').show();
+      }
+    });
+});
+
+</script>
+
+{% endblock include_javascript %}
